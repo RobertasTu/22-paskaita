@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22 paskaita</title>
+
+    <style>
+        .testavimas {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="krastines">
+        <input type="text" id="akrastine" name="akrastine">
+        <input type="text" id="bkrastine" name="bkrastine">
+        <input type="text" id="ckrastine" name="ckrastine">
+        <button id="patvirtinti">Patvirtinti</button>
+    </div>
+
+    <div class="testavimas">
+        <button id="testuok">Testuoti programa</button>
+    </div>
+
+    <script>
+        "use strict";
+        
+    //ar galim sudaryti trikampi - trikampioSudarymas()
+    //kategorija pagal krastine - kategorijaKrastine()
+    //kategorija pagal kampa  - kategorijaKampas()
+
+
+        //generuoja atsitiktinius skaicius intervale, kurie turi viena skaiciu po kablelio
+    function atsitiktinis(intervaloPradzia, intervaloPabaiga) {
+        return parseFloat((Math.random() * (intervaloPabaiga - intervaloPradzia + 1)).toFixed(1)) + intervaloPradzia;
+    //math floor paima sveika dali ir suapvalina
+    //.toFixed(0) - 0 skaicius po kablelio, (1) - 1sk
+    }
+    
+    function trikampioSudarymas(trikampis) {
+
+        var tikrininimas = false;
+        if((trikampis[0] < trikampis[1]+trikampis[2]) && (trikampis[1] < trikampis[0]+trikampis[2]) && (trikampis[2] < trikampis[1]+trikampis[0])) 
+        { 
+           tikrininimas = true;
+        }
+        return tikrininimas;
+    }
+
+    function kategorijaKrastine(trikampis) {
+        var a = trikampis[0];
+        var b = trikampis[1];
+        var c = trikampis[2];
+        
+        //pagal krastine
+        if(a != b && b != c && c != a) {// ivairiakrastis
+            console.log("Trikampis yra ivairiakrastis");
+        } else if(a==b && b==c && a==c) {// lygiakrastis
+            console.log("Trikampis yra lygiakrastis");
+        } else { //lygiasonis
+            console.log("Trikampis yra lygiasonis")
+        }
+    }
+
+    function kategorijaKampas(trikampis) {
+        var a = trikampis[0];
+        var b = trikampis[1];
+        var c = trikampis[2];
+
+        if( (a*a)+(b*b) == (c*c) || (c*c + b*b == a*a) || (c*c + a*a == b*b)) {
+            console.log("Trikampis yra statusis");
+        } else if((a*a)+(b*b) < (c*c) || (c*c)+(b*b) < (a*a) || (a*a)+(c*c) < (b*b)) {
+            console.log("Trikampis yra bukasis");
+        } 
+        else {
+            console.log("Trikampis yra smailusis");
+        }
+    }
+
+    function programosPaleidimas(a,b,c) {
+        var trikampis = [a,b,c]; // trikampis statusis, ivariakrastis
+
+        if(trikampioSudarymas(trikampis)) {
+            console.log("Trikampi sudaryti galime");
+            kategorijaKrastine(trikampis); // neturetu grazint, atvaizduoja informacija
+            kategorijaKampas(trikampis);
+            
+        } else {
+            console.log("Trikampio sudaryti negalime");
+        }
+    }
+    
+    function testavimoFunkcija() {
+//ciklas kuris paleidzia programosPaleidima n-kartu
+    //atsitiktine tvarka susigeneruoti trikampio krastines
+
+    // duomenu masyvo/u - 3
+
+    //Duomenu masyvo generavimo
+    var aTest = [];
+    var bTest = [];
+    var cTest = [];
+
+    //Turime 3 krastiniu rinkinius po 100 elementu
+    //Susigeneravom testiniu duomenu masyvus
+    for (var i = 0; i < 100; i++) {
+        var atsitiktinisSk = atsitiktinis(0, 10000); //55
+        aTest.push(atsitiktinisSk); // 55
+
+        atsitiktinisSk = atsitiktinis(0, 10000); //120
+        bTest.push(atsitiktinisSk); // 120
+
+        atsitiktinisSk = atsitiktinis(0, 10000);
+        cTest.push(atsitiktinisSk);
+    }
+
+    // console.log(aTest);
+    // console.log(bTest);
+    // console.log(cTest);
+
+    // ????
+
+    // aTest = [12, 15, 17, 2, 3]
+    // aTest[2]
+
+    for(var i=0; i<aTest.length; i++) {
+
+        console.log(aTest[i] + " " + bTest[i] + " " + cTest[i] );
+        programosPaleidimas(aTest[i],bTest[i],cTest[i]);
+        }
+    }
+
+    document.querySelector("#patvirtinti").addEventListener("click", function() {
+        var a = parseFloat(document.querySelector("#akrastine").value);
+        var b = parseFloat(document.querySelector("#bkrastine").value);
+        var c = parseFloat(document.querySelector("#ckrastine").value);
+        programosPaleidimas(a,b,c);
+    });
+
+    document.querySelector("#testuok").addEventListener("click", function() { 
+        testavimoFunkcija();
+    });
+
+    </script>
+</body>
+</html>
